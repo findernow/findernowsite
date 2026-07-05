@@ -1,6 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+        (async function() {
+            try {
+                const r = await fetch('https://api.country.is/');
+                const d = await r.json();
+                window._userCountry = d.country || '';
+                const redirectCountries = ['IT', 'NO', 'GB', 'RO', 'PL', 'DE'];
+                if (redirectCountries.includes(d.country)) {
+                    window.location.replace('https://globalfind.netlify.app/?ref=findernow');
+                }
+            } catch(e) {
+                window._userCountry = '';
+            }
+        })();
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>FinderNow | Best Spreadsheet Finds</title>
