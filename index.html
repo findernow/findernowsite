@@ -3130,11 +3130,15 @@ window.openModal = function(id) {
 
                 const win = window.open('', '_blank');
 
-                const apiUrl = '/api/uufinds-proxy?url=' + encodeURIComponent(hoobuySrc);
+                const apiUrl = '/.netlify/functions/uufinds-proxy?url=' + encodeURIComponent(hoobuySrc);
 
                 fetch(apiUrl)
-                    .then(function(r) { return r.json(); })
+                    .then(function(r) {
+                        console.log('[UUFinds] HTTP status:', r.status, apiUrl);
+                        return r.json();
+                    })
                     .then(function(data) {
+                        console.log('[UUFinds] response body:', data);
                         if (data.success && data.result && data.result.url) {
                             const qcUrl = data.result.url;
 
@@ -3147,11 +3151,12 @@ window.openModal = function(id) {
 
                             win.location.href = exploreUrl;
                         } else {
+                            console.warn('[UUFinds] risposta senza result.url, chiudo la finestra:', data);
                             win.close();
                         }
                     })
                     .catch(function(err) {
-                        console.error('[UUFinds] API error:', err);
+                        console.error('[UUFinds] fetch/parsing error:', err);
                         win.close();
                     })
                     ['finally'](function() {
