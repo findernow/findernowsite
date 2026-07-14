@@ -3144,12 +3144,7 @@ window.openModal = function(id) {
 
                             fetch(qcUrl, { mode: 'no-cors' }).catch(function() {});
 
-                            const idMatch = qcUrl.match(/\/qc\/(\d+)/);
-                            const exploreUrl = idMatch
-                                ? 'https://www.uufinds.com/goodItemDetail/qc/' + idMatch[1]
-                                : qcUrl;
-
-                            win.location.href = exploreUrl;
+                            win.location.href = qcUrl;
                         } else {
                             console.warn('[UUFinds] risposta senza result.url, chiudo la finestra:', data);
                             win.close();
